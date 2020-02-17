@@ -1,29 +1,46 @@
-const todos = (state = [], action) => {
+const todo = (state, action) => {
+
     switch (action.type) {
         case 'ADD_TODO':
-            return [
-                ...state,
-                {
+            return {
                     id: action.id,
                     text: action.text,
                     completed: false
                 }
-            ]
+            
 
         case 'TOGGLE_TODO':
-            return state.map(todo => {
 
-                if (todo.id !== action.id) {
-                    return todo
-                }
+            if (state.id !== action.id) {
+                return state
+            }
 
-                return  {
-                    ...todo,
-                    completed: !todo.completed
-                }
-            })
+            return  {
+                ...state,
+                completed: !state.completed
+            }
+     
         default:
             return state
+    }
+
+}
+
+const todos = (state = [], action) => {
+
+    switch (action.type) {
+        case 'ADD_TODO':
+            return [
+                
+                ...state,
+                todo(undefined, action)
+            ]
+        case 'TOGGLE_TODO':
+            return state.map(t => todo(t, action))
+
+        default:
+            return state
+
     }
 
 };
@@ -72,6 +89,19 @@ const testToggleTodo = () => {
         type: 'TOGGLE_TODO',
         id: 1
     }
+
+    const stateAfter = [
+        {
+            id: 0,
+            text: 'Learn Redux',
+            completed: 'false'
+        },
+        {
+            id: 1,
+            text: 'Go shopping',
+            completed: true
+        }
+    ]
 
     deepFreeze(stateBefore)
     deepFreeze(action)
