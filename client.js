@@ -45,6 +45,32 @@ const todos = (state = [], action) => {
 
 };
 
+const visibilityFilter = (
+    state = 'SHOW_ALL',
+    action
+) => {
+    switch (action.type) {
+        case 'SET_VISIBILITY_FILTER':
+            return action.filter
+        default:
+            return state
+            
+    }
+}
+
+const todoApp = (state = {}, action) => {
+    return {
+        todos: todos(
+            state.todos,
+            action
+        ),
+        visibilityFilter: visibilityFilter(
+            state.visibilityFilter,
+            action
+        )
+    }
+}
+
 const testAddTodo = () => {
 
     const stateBefore = []
@@ -110,6 +136,72 @@ const testToggleTodo = () => {
         todos(stateBefore,action)
     ).toEqual(stateAfter)
 }
+
+const { createStore } = Redux
+const store = createStore(todoApp)
+
+console.log('Current State: ')
+console.log(store.getState())
+console.log('---------------------')
+
+console.log('DISPATCHING')
+console.log(store.dispatch(
+    {
+        type: 'ADD_TODO',
+        id: 0,
+        text: 'Learn Redux',
+
+    }
+))
+console.log('---------------------')
+
+
+console.log('Current State: ')
+console.log(store.getState())
+console.log('---------------------')
+
+console.log('DISPATCHING')
+console.log(store.dispatch(
+    {
+        type: 'ADD_TODO',
+        id: 1,
+        text: 'gO SHOPPING',
+
+    }
+))
+
+
+console.log('Current State: ')
+console.log(store.getState())
+console.log('---------------------')
+
+console.log('DISPATCHING')
+console.log(store.dispatch(
+    {
+        type: 'TOGGLE_TODO',
+        id: 1,
+
+    }
+))
+
+console.log('Current State: ')
+console.log(store.getState())
+console.log('---------------------')
+
+console.log('DISPATCHING')
+console.log(store.dispatch(
+    {
+        type: 'SET_VISIBILITY_FILTER',
+        filter: 'SHOW_COMPLETED',
+
+    }
+))
+
+console.log('Current State: ')
+console.log(store.getState())
+console.log('---------------------')
+
+
 
 testAddTodo();
 testToggleTodo();
