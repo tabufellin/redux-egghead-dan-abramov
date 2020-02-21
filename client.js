@@ -58,6 +58,15 @@ const visibilityFilter = (
     }
 }
 
+
+const { combineReducers } = Redux
+const todoApp = combineReducers(
+    {
+        todos,
+        visibilityFilter
+    }
+)
+/*
 const todoApp = (state = {}, action) => {
     return {
         todos: todos(
@@ -70,72 +79,7 @@ const todoApp = (state = {}, action) => {
         )
     }
 }
-
-const testAddTodo = () => {
-
-    const stateBefore = []
-    const action = {
-        type: 'ADD_TODO',
-        id: 0,
-        text:'Learn Redux'
-    }
-
-    const stateAfter = [
-        {
-            id: 0,
-            text: 'Learn Redux',
-            completed: false
-        }
-    ]
-
-    deepFreeze(stateBefore);
-    deepFreeze(action);
-
-    expect(
-        todos(stateBefore, action)
-    ).toEqual(stateAfter)
-
-    
-}
-
-const testToggleTodo = () => {
-    const stateBefore = [
-        {
-            id: 0,
-            text: 'Learn Redux',
-            completed: 'false'
-        },
-        {
-            id: 1,
-            text: 'Go shopping',
-            completed: false
-        }
-    ]
-    const action = {
-        type: 'TOGGLE_TODO',
-        id: 1
-    }
-
-    const stateAfter = [
-        {
-            id: 0,
-            text: 'Learn Redux',
-            completed: 'false'
-        },
-        {
-            id: 1,
-            text: 'Go shopping',
-            completed: true
-        }
-    ]
-
-    deepFreeze(stateBefore)
-    deepFreeze(action)
-
-    expect(
-        todos(stateBefore,action)
-    ).toEqual(stateAfter)
-}
+*/
 
 const { createStore } = Redux
 const store = createStore(todoApp)
@@ -201,8 +145,3 @@ console.log('Current State: ')
 console.log(store.getState())
 console.log('---------------------')
 
-
-
-testAddTodo();
-testToggleTodo();
-console.log('All test passed')
